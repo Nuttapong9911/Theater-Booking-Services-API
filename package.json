@@ -1,0 +1,8 @@
+{
+  "name": "theater-booking-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@gitlab.thinknet.co.th:nuttapongb/theater-booking-app.git",
+  "author": "nuttapong boonsala <nuttapongb@thinknet.co.th>",
+  "license": "MIT"
+}
