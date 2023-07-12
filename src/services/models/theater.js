@@ -10,7 +10,7 @@ const seat = new mongoose.Schema({
 
 const theaterSchema = new mongoose.Schema({
     theater_name: {type: String},
-    description: {type: String},
+    description: {type: String, default: 'default theater description'},
     seats: [seat]
 })
 

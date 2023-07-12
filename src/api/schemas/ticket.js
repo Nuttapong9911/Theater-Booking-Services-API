@@ -41,10 +41,12 @@ const typeDefs = `#graphql
 
     type GetInfoFromRefPayload {
         movie_name: String
+        movie_image: String
         datetime_start: String
         datetime_end: String
         theater_name: String
         ticket_status: String
+        seat_type: String
         row: String
         column: String
     }

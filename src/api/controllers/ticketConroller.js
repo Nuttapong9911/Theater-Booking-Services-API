@@ -119,10 +119,12 @@ const getInfoFromRef = async (input) => {
         })
         return {
             movie_name: movieResponse.data.name,
+            movie_image: movieResponse.data.image,
             datetime_start: showtimeResponse.data.datetime_start,
             datetime_end: showtimeResponse.data.datetime_end,
             theater_name: theaterResponse.data.theater_name,
             ticket_status: ticketResponse.data.status,
+            seat_type: ticketResponse.data.seat_type,
             row: ticketResponse.data.row,
             column: ticketResponse.data.column
         }

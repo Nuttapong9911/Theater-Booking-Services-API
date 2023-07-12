@@ -12,6 +12,7 @@ const typeDefs = `#graphql
         _id: ID!
         theater_name: String
         seats: [Seat]
+        description: String
     }
 
     input GetTheaterInput {
@@ -47,26 +48,43 @@ const typeDefs = `#graphql
         message: String
     }
 
+    type GetAllTheaterPayload {
+        data: [Theater]
+    }
+
+    input DeleteTheaterInput {
+        _theaterID: String
+    }
+
+    type DeleteTheaterPayload {
+        httpCode: String
+        message: String
+    }
+
 `
 
 const quries =`#graphql
     getTheaterByID (input: GetTheaterInput) : GetTheaterPayload
     getTheaterByName (input: GetTheaterByNameInput) : GetTheaterPayload
+    getAllTheater : GetAllTheaterPayload
 `
 
 const mutations = `#graphql
     createTheater (input: CreateTheaterInput) : CreateTheaterPayload
     editTheaterByID (input: EditTheaterInput) : EditTheaterPayload
+    deleteTheaterByID (input: DeleteTheaterInput) : DeleteTheaterPayload
 `
 
 const resolvers = {
     Query: {
         getTheaterByID: (_, args) => theaterController.getTheater(args.input),
         getTheaterByName: (_, args) => theaterController.getTheaterByName(args.input),
+        getAllTheater: (_, args) => theaterController.getAllTheater()
     },
     Mutation: {
         createTheater: (_, args) => theaterController.createTheater(args.input),
-        editTheaterByID: (_, args) => theaterController.editTheaterByID(args.input)
+        editTheaterByID: (_, args) => theaterController.editTheaterByID(args.input),
+        deleteTheaterByID: (_, args) => theaterController.deleteTheaterByID(args.input)
     }
 }
 

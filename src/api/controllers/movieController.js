@@ -55,9 +55,6 @@ const createMovie = async (input) => {
                 movie_duration: input.movie_duration,
                 description: input.description,
                 movie_image: input.movie_image
-            })
-        .catch(err => {
-            console.log(err)
         })
 
         return{

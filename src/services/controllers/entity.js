@@ -4,7 +4,7 @@ const Movie = require('../models/movie')
 const createTheater = async (req, res) => {
     try {
         const { theater_name, description } = req.body
-        if(!(theater_name && description)){
+        if(!(theater_name)){
             res.status(400).send('All input is required')
             return;
         }
@@ -110,7 +110,7 @@ const editTheaterByID = async (req, res) => {
 
 const deleteTheaterByID = async (req, res) => {
     try {
-        const { _theaterID } = req.body
+        const { _theaterID } = req.query
         if(!_theaterID){
             res.status(400).send('_theaterID is required')
             return;

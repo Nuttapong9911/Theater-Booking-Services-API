@@ -11,7 +11,7 @@ services:
         environment:
             - MONGO_URI=mongodb+srv://nuttapong:CKdUsElZwNwiXDBu@cluster0.dtkhjsn.mongodb.net/?retryWrites=true&w=majority
             - AUTH_PORT=4001
-            - TOKEN_KEY = secretofsecretsecretofsecret
+            - TOKEN_KEY=secretofsecretsecretofsecret
         command: ['/bin/sh', '-c', 'yarn install && yarn dev-auth']
     
     showtime_service:
@@ -35,7 +35,7 @@ services:
             - 4003:4003
         environment:
             - MONGO_URI=mongodb+srv://nuttapong:CKdUsElZwNwiXDBu@cluster0.dtkhjsn.mongodb.net/?retryWrites=true&w=majority
-            - ENTITY_PORT = 4003
+            - ENTITY_PORT=4003
         command: ['/bin/sh', '-c', 'yarn install && yarn dev-entity']
         
     booking_service:
@@ -47,7 +47,7 @@ services:
             - 4004:4004
         environment:
             - MONGO_URI=mongodb+srv://nuttapong:CKdUsElZwNwiXDBu@cluster0.dtkhjsn.mongodb.net/?retryWrites=true&w=majority
-            - BOOKING_PORT = 4004
+            - BOOKING_PORT=4004
         command: ['/bin/sh', '-c', 'yarn install && yarn dev-booking']
 
     api_service:

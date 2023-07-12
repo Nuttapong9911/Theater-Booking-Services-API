@@ -2,11 +2,11 @@ const movieController = require('../controllers/movieController')
 
 const typeDefs = `#graphql
     type Movie {
-        _movieID: String
-        movie_name: String
+        _movieID: String!
+        movie_name: String!
         description: String
         movie_duration: Int
-        genres: [String]
+        genres: [String]!
         movie_image: String
     }
 

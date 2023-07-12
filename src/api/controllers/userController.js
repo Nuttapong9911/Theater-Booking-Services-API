@@ -39,12 +39,16 @@ const decodedToken = async (token) => {
             token: token
         }})
         // console.log(response.status === 200)
-        if(response.status === 200)
+        if(response.status === 200 && response.data){
             return {
                 user_id: response.data.user_id,
                 firstname: response.data.firstname,
                 lastname: response.data.lastname
             }
+        }else {
+            return null
+        }
+            
         
     } catch (error) {
         console.log(error)

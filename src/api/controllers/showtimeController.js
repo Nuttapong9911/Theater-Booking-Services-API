@@ -13,7 +13,7 @@ const getShowtimeByID = async (input) => {
 
         const movie = movies.data.find((m) => {return response.data._movieID === m._id})
         const theater = theaters.data.find((t) => {return response.data._theaterID === t._id})
-
+        // console.log((new Date(response.data.datetime_start).toLocaleString('en-US', {timeZone: 'Asia/Bangkok'})))
         return {showtime: { ...response.data, 
             _showID:response.data._id, 
             movie_name: movie.name,
@@ -95,17 +95,11 @@ const editShowtimeByID = async (input) => {
     try {
         const movieResponse = await axios.get('http://entity_service:4003/getmoviebyname', {params:{
                 movie_name: input.movie_name
-            }})
-            .catch(err => {
-                console.log(err)
-        })
+        }})
 
         const theaterResponse = await axios.get('http://entity_service:4003/gettheaterbyname', {params:{
             theater_name: input.theater_name
-            }})
-            .catch(err => {
-                console.log(err)
-        })
+        }})
 
         const editShowtimeResponse = await axios.put('http://showtime_service:4002/editshowtimebyid', {
             _showID : input._showID ,
@@ -113,11 +107,8 @@ const editShowtimeByID = async (input) => {
             datetime_start : input.datetime_start, 
             datetime_end : input.datetime_end, 
             _theaterID : theaterResponse?.data._id
-            })
-            .catch(err => {
-                console.log(err)
-        })
-
+        })  
+      
         if(input.editedSeats.length > 0){
             input.editedSeats.forEach( async (element) => {
                 const editTicketResponse = await axios.put('http://booking_service:4004/editticketbyshowtimeandpos', {
@@ -126,18 +117,18 @@ const editShowtimeByID = async (input) => {
                     column: element.column,
                     status: element.status
                 })
-                .catch(err => {
-                    console.log(err)
-                })
             });
         }
-
+ 
         return {
                 httpCode: "200",
                 message: "OK"
         }
     } catch (error) {
-        console.log(error)
+        return {
+            httpCode: error.response.status,
+            message: error.response.data
+        }
     }
 }
 
@@ -145,36 +136,28 @@ const createShowtime = async(input) => {
     try {
         const movieResponse = await axios.get('http://entity_service:4003/getmoviebyname', {params:{
             movie_name: input.movie_name
-            }})
-            .catch(err => {
-                console.log(err)
-        })
+        }})
 
         const theaterResponse = await axios.get('http://entity_service:4003/gettheaterbyname', {params:{
             theater_name: input.theater_name
-            }})
-            .catch(err => {
-                console.log(err)
-        })
+        }})
 
         const showtimeResponse = await axios.post('http://showtime_service:4002/createshowtime', {
             _movieID : movieResponse.data._id, 
             datetime_start : input.datetime_start, 
             datetime_end : input.datetime_end, 
             _theaterID : theaterResponse.data._id
-            })
-            .catch(err => {
-                console.log(err)
         })
 
         return {
             httpCode: showtimeResponse.status,
             message: showtimeResponse.statusText
         }
-
-
     } catch (error) {
-        console.log(error)
+        return {
+            httpCode: error.response.status,
+            message: error.response.data
+        }
     }
 }
 

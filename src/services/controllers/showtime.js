@@ -134,16 +134,17 @@ const getShowtimeByDate = async (req, res) => {
             res.status(400).send("All input is required")
             return
         }
-        const dateStartObj = new Date((new Date(datetime_start)).toDateString())
+
+        const dateStartObj = new Date((new Date(`${datetime_start} GMT+07:00`)).toDateString())
         const dateEndObj = new Date(dateStartObj.getTime() + 24*60*60*1000)
-        
+        console.log(dateStartObj)
         const showtimes = await Showtime.find({
             "$and": [
                 {datetime_start: {"$gte": dateStartObj}},
                 {datetime_start: {"$lt": dateEndObj}}
             ]
         })
-
+        
         if(!showtimes){
             res.status(400).send("Showtime not found")
             return;

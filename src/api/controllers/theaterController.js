@@ -28,6 +28,16 @@ const getTheaterByName = async(input) => {
     }
 }
 
+const getAllTheater = async() => {
+    try {
+        const allTheatersResponse = await axios.get('http://entity_service:4003/getalltheater')
+
+        return {data: allTheatersResponse.data}
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 const createTheater = async(input) => {
     try {
         const createResponse = await axios.post('http://entity_service:4003/createtheater', {
@@ -67,9 +77,30 @@ const editTheaterByID = async (input) => {
     }
 }
 
+const deleteTheaterByID = async (input) => {
+    try {
+        const deleteResponse = await axios.delete('http://entity_service:4003/deletetheater', {
+            params: {
+                _theaterID: input._theaterID,
+            }
+        })
+
+        return {
+            httpCode: deleteResponse.status,
+            message: deleteResponse.statusText
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+
 module.exports = {
     getTheater,
     getTheaterByName,
+    getAllTheater,
     createTheater,
-    editTheaterByID
+    editTheaterByID,
+    deleteTheaterByID
 }
