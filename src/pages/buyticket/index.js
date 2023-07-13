@@ -38,7 +38,7 @@ export default function buyticket() {
     // - get picked date object by -> week[pickedDateIdx].dateObj
     const [pickedDateIdx, setPickedDateIdx] = useState(0)
     const onDateChange = (e) => {
-      console.log(e.target.value)
+      // console.log(e.target.value)
       setPickedDateIdx(e.target.value)
     }
 

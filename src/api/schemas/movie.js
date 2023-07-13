@@ -42,6 +42,14 @@ const typeDefs = `#graphql
         _movieID: String
     }
 
+    input DeleteMovieInput {
+        _movieID: String
+    }
+
+    type DeleteMoviePayload {
+        httpCode: String
+        message: String
+    }
 `
 
 const quries =`#graphql
@@ -52,6 +60,7 @@ const quries =`#graphql
 const mutations = `#graphql
     createMovie (input: CreateMovieInput) : CreateMoviePayload
     editMovieByID (input: EditMovieInput) : CreateMoviePayload
+    deleteMovieByID (input: DeleteMovieInput) : DeleteMoviePayload
 `
 
 const resolvers = {
@@ -61,7 +70,8 @@ const resolvers = {
     },
     Mutation: {
         createMovie : (_, args) => movieController.createMovie(args.input),
-        editMovieByID: (_, args) => movieController.editMovieByID(args.input)
+        editMovieByID: (_, args) => movieController.editMovieByID(args.input),
+        deleteMovieByID: (_, args) => movieController.deleteMovieByID(args.input)
     }
 }
 

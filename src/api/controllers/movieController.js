@@ -76,11 +76,8 @@ const editMovieByID = async(input) => {
             movie_duration: input.movie_duration,
             description: input.description,
             movie_image: input.movie_image
-            })
-        .catch(err => {
-            console.log(err)
         })
-
+        
         return{
             httpCode: editResponse.status,
             message: editResponse.statusText
@@ -90,9 +87,29 @@ const editMovieByID = async(input) => {
     }
 }
 
+const deleteMovieByID = async (input) => {
+    try {
+        console.log(input, 'test')
+        const deleteResponse = await axios.delete('http://entity_service:4003/deletemovie' , {params: {
+            _movieID: input._movieID
+        }})
+
+        return {
+            httpCode: deleteResponse.status,
+            message: deleteResponse.statusText
+        }
+    } catch (error) {
+        return {
+            httpCode: error.response.status,
+            message: error.response.data
+        }
+    }
+}
+
 module.exports = {
     getAllMovie,
     getMovieByID,
     createMovie,
-    editMovieByID
+    editMovieByID,
+    deleteMovieByID
 }

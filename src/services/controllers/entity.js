@@ -228,7 +228,8 @@ const editMovieByID = async (req, res) => {
 
 const deleteMovieByID = async (req, res) => {
     try {
-        const { _movieID } = req.body
+        // console.log(req)
+        const { _movieID } = req.query
         if(!_movieID){
             res.status(400).send('_movieID is required')
             return;
