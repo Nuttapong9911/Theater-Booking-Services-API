@@ -14,6 +14,10 @@ const typeDefs = `#graphql
         data: [Movie]
     }
 
+    input GetMovieByIDInput {
+        _movieID: String
+    }
+
     input CreateMovieInput {
         movie_name: String
         description: String
@@ -54,7 +58,7 @@ const typeDefs = `#graphql
 
 const quries =`#graphql
     getAllMovie : AllMoviePayload
-    getMovieByID (input: String) : Movie
+    getMovieByID (input: GetMovieByIDInput) : Movie
 `
 
 const mutations = `#graphql

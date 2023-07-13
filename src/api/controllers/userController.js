@@ -38,12 +38,12 @@ const decodedToken = async (token) => {
         const response = await axios.get('http://auth_service:4001/decodetoken', {params: {
             token: token
         }})
-        // console.log(response.status === 200)
         if(response.status === 200 && response.data){
             return {
                 user_id: response.data.user_id,
                 firstname: response.data.firstname,
-                lastname: response.data.lastname
+                lastname: response.data.lastname,
+                role: response.data.role
             }
         }else {
             return null

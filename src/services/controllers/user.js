@@ -51,25 +51,30 @@ const login = async (req, res) => {
         }
 
         // - validate user password and if use has registered
-        const user = await Customer.findOne({email}) || await Admin.findOne({email})
+        const user = await Customer.findOne({email})
+        const admin = await Admin.findOne({email})
         if(user && (await bcrypt.compare(password, user.password))) {
             // - create token
             const token = jwt.sign(
-                {user_id: user._id, firstname: user.firstname || "", lastname: user.lastname || "" },
+                {user_id: user._id, firstname: user.firstname || "", lastname: user.lastname || "", role: 'customer' },
                 TOKEN_KEY,
                 {
-                    expiresIn: "1h" 
+                    expiresIn: "1h",
                 }
             )
-            console.log(token)
-        
-            // - store token into cookies
-            // res.cookie("token", token, {
-            //     httpOnly: true
-            // })
-
-            user.token = token
+            // console.log(token, 'user')
             res.status(200).json({...user, token})
+        }else if(admin && (await bcrypt.compare(password, admin.password))){
+            // - create token
+            const token = jwt.sign(
+                {user_id: admin._id, firstname:  "", lastname: "", role: 'admin' },
+                TOKEN_KEY,
+                {
+                    expiresIn: "1h",
+                }
+            )
+            // console.log(token, 'admin')
+            res.status(200).json({...admin, token})
         }else{
             res.status(400).send("Invalid Credentials")
         }
@@ -80,16 +85,6 @@ const login = async (req, res) => {
 
 const getUserByID = async(req, res) => {
     try {
-        // const token = req.cookies.token
-        // if (!token){
-        //     res.status(400).send("Token required")
-        //     return;
-        // }
-
-        // // - get user_id from token in the cookie
-        // const decodedToken = jwt.decode(token);
-        // const _userID = decodedToken.user_id
-
         const { _userID } = Object.keys(req.query).length === 0 ? req.body : req.query
         if(!_userID) {
             res.status(400).send("_userID is required")
@@ -100,18 +95,7 @@ const getUserByID = async(req, res) => {
 
         if (user){
             res.status(200).json(user)
-        // if (user && decodedToken.firstname !== ""){
-        //     const addRoleUser = {
-        //         ...user._doc,
-        //         role: "customer"
-        //     }
-        //     res.status(200).json(addRoleUser)
-        // }else if(user && decodedToken.firstname === ""){
-        //     const addRoleUser = {
-        //         ...user._doc,
-        //         role: "admin"
-        //     }
-        //     res.status(200).json(addRoleUser)
+
         }else{
             res.status(400).send("USER not found")
         }
@@ -196,8 +180,6 @@ const decodeToken = async (req, res) => {
         }
         // - get user_id from token in the cookie
         const decodedToken = jwt.decode(token)
-        // const _userID = decodedToken.user_id
-        // console.log(decodedToken)
         res.status(200).json(decodedToken)
     } catch (error) {
         res.status(400).send("Invalid Token")

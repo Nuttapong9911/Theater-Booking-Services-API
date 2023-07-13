@@ -29,6 +29,7 @@ const typeDefs = `#graphql
         user_id: String
         firstname: String
         lastname: String
+        role: String
     }
 `
 
