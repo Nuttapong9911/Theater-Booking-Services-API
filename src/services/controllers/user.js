@@ -95,9 +95,8 @@ const getUserByID = async(req, res) => {
 
         if (user){
             res.status(200).json(user)
-
         }else{
-            res.status(400).send("USER not found")
+            res.status(400).send("User not found")
         }
     } catch (error) {
         console.log(error)
@@ -117,7 +116,7 @@ const updateUserByID = async(req, res) => {
         // const decodedToken = jwt.decode(token);
         // const _userID = decodedToken.user_id
         const user = await Customer.findOne({_id:_userID})
-
+        const admin = await Admin.findOne({_id: _userID})
         if (user) {
             const updatedCustomer = await Customer.findOneAndUpdate(
                 {_id:_userID},
@@ -129,7 +128,11 @@ const updateUserByID = async(req, res) => {
                 {new:true}
             )
             res.status(200).json(updatedCustomer)
-        }else{
+        }
+        else if(admin) {
+            res.status(200).send("Admin found, no need to update account")
+        }
+        else{
             res.status(400).send("User not found")
         }
     } catch (error) {

@@ -18,10 +18,7 @@ const createTicket = async (input) => {
     try {
         const user = await axios.get('http://auth_service:4001/getuserbyid', {params:{
             _userID: input._userID
-            }})
-            .catch(err => {
-                console.log(err)
-        })
+        }})    
 
         if (user.data.account < input.price){
             return {
@@ -36,19 +33,12 @@ const createTicket = async (input) => {
             seat_type: input.seat_type,
             row: input.row,
             column : input.column
-            })
-            .catch(err => {
-                console.log(err)
         })
 
         const userResponse = await axios.put('http://auth_service:4001/updateuserbyid', {
             _userID : input._userID,
             account : user.data.account - input.price
-            })
-            .catch(err => {
-                console.log(err)
         })
-
         return {
             httpCode: "200",
             message: "ok",
@@ -57,25 +47,51 @@ const createTicket = async (input) => {
         }
         
     } catch (error) {
-        console.log(error)
+        return {
+            httpCode: error.response.status,
+            message: error.response.data
+        }
     }
 }
 
 const createMultipleTickets = async (input) => {
     try {
+        const user = await axios.get('http://auth_service:4001/getuserbyid', {params:{
+            _userID: input._userID
+        }})  
+        let totalPrice = 0
+        for (const seat of input.orderedSeats){
+            totalPrice += seat.price
+        }
+
+        if (user.data.account < totalPrice){
+            return {
+                httpCode: "400",
+                message: "not enough money :(",
+            }
+        }
+        console.log('pass account check condition')
         const response = []
 
         for (const seat of input.orderedSeats){
-            response.push(await createTicket({
+            const ticketResponse = await createTicket({
                 _userID : input._userID,
                 _showID : input._showID,
                 seat_type: seat.seat_type,
                 row: seat.row,
                 column : seat.column,
                 price: seat.price
-            }))
+            })
+            if (ticketResponse.httpCode !== 200){
+                return {
+                    httpCode: ticketResponse.httpCode,
+                    message: ticketResponse.message,
+                    userAccount: 0,
+                    refCode : []
+                }
+            }
+            response.push(ticketResponse)
         }
-
         return {
             httpCode: "200",
             message: "ok",
@@ -84,7 +100,11 @@ const createMultipleTickets = async (input) => {
         }
 
     } catch (error) {
-        console.log(error)
+        console('catch error', error)
+        return {
+            httpCode: error.response.status,
+            message: error.response.data
+        }
     }
 }
 
@@ -92,31 +112,20 @@ const getInfoFromRef = async (input) => {
     try {
         const ticketResponse = await axios.get('http://booking_service:4004/getticketbyrefcode', {params:{
             reference_code: input.reference_code
-            }})
-            .catch(err => {
-                console.log(err)
-        })
+        }})
 
         const showtimeResponse = await axios.get('http://showtime_service:4002/getshowtimebyid', {params:{
             _showID: ticketResponse.data._showID
-            }})
-            .catch(err => {
-                console.log(err)
-        })
+        }})
 
         const movieResponse = await axios.get('http://entity_service:4003/getmoviebyid', {params:{
             _movieID: showtimeResponse.data._movieID
-            }})
-            .catch(err => {
-                console.log(err)
-        })
+        }})
 
         const theaterResponse = await axios.get('http://entity_service:4003/gettheaterbyid', {params:{
             _theaterID: showtimeResponse.data._theaterID
-            }})
-            .catch(err => {
-                console.log(err)
-        })
+        }})
+        
         return {
             movie_name: movieResponse.data.name,
             movie_image: movieResponse.data.image,
@@ -128,7 +137,6 @@ const getInfoFromRef = async (input) => {
             row: ticketResponse.data.row,
             column: ticketResponse.data.column
         }
-
     } catch (error) {
         console.log(error)
     }

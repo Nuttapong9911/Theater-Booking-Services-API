@@ -137,7 +137,7 @@ const getShowtimeByDate = async (req, res) => {
 
         const dateStartObj = new Date((new Date(`${datetime_start} GMT+07:00`)).toDateString())
         const dateEndObj = new Date(dateStartObj.getTime() + 24*60*60*1000)
-        console.log(dateStartObj)
+        // console.log(dateStartObj)
         const showtimes = await Showtime.find({
             "$and": [
                 {datetime_start: {"$gte": dateStartObj}},

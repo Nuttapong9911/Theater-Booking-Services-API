@@ -28,10 +28,7 @@ const getMovieByID = async (input) => {
     try {
         const movieResponse = await axios.get('http://entity_service:4003/getmoviebyid', {params:{
             _movieID: input._movieID
-            }}) 
-            .catch(err => {
-                console.log(err)
-        })
+        }}) 
 
         return {
             _movieID: movieResponse.data._id,
@@ -42,7 +39,7 @@ const getMovieByID = async (input) => {
             movie_image: movieResponse.data.image
         }
     } catch (error) {
-        console.log(error)
+        return null
     }
 }
 

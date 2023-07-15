@@ -53,10 +53,10 @@ const getShowtimeByDate = async (searchInput) => {
             const theater = theaters.data.find((t) => {return elem._theaterID === t._id})
             return { ...elem, 
                 _showID:elem._id,
-                movie_name: movie.name, 
-                movie_image: movie.image, 
-                theater_name:theater.theater_name,
-                theater_seats: theater.seats
+                movie_name: movie?.name, 
+                movie_image: movie?.image, 
+                theater_name:theater?.theater_name,
+                theater_seats: theater?.seats
             }
         })
 
