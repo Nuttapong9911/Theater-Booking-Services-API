@@ -70,7 +70,6 @@ const createMultipleTickets = async (input) => {
                 message: "not enough money :(",
             }
         }
-        console.log('pass account check condition')
         const response = []
 
         for (const seat of input.orderedSeats){
@@ -82,7 +81,8 @@ const createMultipleTickets = async (input) => {
                 column : seat.column,
                 price: seat.price
             })
-            if (ticketResponse.httpCode !== 200){
+            // console.log(ticketResponse)
+            if (ticketResponse.httpCode !== '200'){
                 return {
                     httpCode: ticketResponse.httpCode,
                     message: ticketResponse.message,

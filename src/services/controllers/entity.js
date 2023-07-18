@@ -174,7 +174,7 @@ const getMovieByID = async (req, res) => {
             res.status(400).send('Movie not found')
         }
     } catch (error) {
-        console.log(error)
+        res.status(400).send(error)
     }
 }
 
