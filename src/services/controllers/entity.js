@@ -13,13 +13,13 @@ const createTheater = async (req, res) => {
         const seats = [{
             seat_type: 'PREMIUM',
             price: 500,
-            rows: ['A', 'B'],
+            rows: ['A', 'B', 'C', 'D'],
             column: ["1","2","3","4","5","6","7","8"]
             },
             {
             seat_type: 'NORMAL',
             price: 300,
-            rows: ['C', 'D'],
+            rows: ['E', 'F', 'G', 'H'],
             column: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
             }
         ]

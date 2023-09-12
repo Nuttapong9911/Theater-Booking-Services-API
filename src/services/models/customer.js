@@ -5,7 +5,7 @@ const customerSchema = new mongoose.Schema({
     lastname: {type: String, default: null},
     email: {type: String, unique: true},
     password: {type: String},
-    account: {type: Number, default: 0 }
+    account: {type: Number, default: 20000 }
 })
 
 module.exports = mongoose.model('customer', customerSchema)

@@ -48,7 +48,7 @@ const createShowtime = async(req, res) => {
          // - check if invalid datetime or showtime's datetime is more than movie duration
         const datetime_diff = (new_datetime_end.getTime() - new_datetime_start.getTime())/60000
         if( (datetime_diff <=0) || (datetime_diff < movie.data.duration) ){
-            res.status(400).send("showtime datetime invalid")
+            res.status(400).send("showtime datetime invalid, the selected datetime may less than movie duration.")
             return;
         }
 

@@ -59,7 +59,7 @@ const login = async (req, res) => {
                 {user_id: user._id, firstname: user.firstname || "", lastname: user.lastname || "", role: 'customer' },
                 TOKEN_KEY,
                 {
-                    expiresIn: "1h",
+                    expiresIn: "4h",
                 }
             )
             // console.log(token, 'user')
@@ -70,7 +70,7 @@ const login = async (req, res) => {
                 {user_id: admin._id, firstname:  "", lastname: "", role: 'admin' },
                 TOKEN_KEY,
                 {
-                    expiresIn: "1h",
+                    expiresIn: "8h",
                 }
             )
             // console.log(token, 'admin')
@@ -182,9 +182,11 @@ const decodeToken = async (req, res) => {
             return;
         }
         // - get user_id from token in the cookie
-        const decodedToken = jwt.decode(token)
+        const decodedToken = jwt.verify(token, TOKEN_KEY)
+        console.log('after verify')
         res.status(200).json(decodedToken)
     } catch (error) {
+        console.log('caught error')
         res.status(400).send("Invalid Token")
     }
 }

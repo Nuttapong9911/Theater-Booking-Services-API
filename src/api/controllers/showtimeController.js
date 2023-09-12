@@ -47,7 +47,7 @@ const getShowtimeByDate = async (searchInput) => {
         let movienames = []
         const mapResponse = await response.data.map((elem) => {
             const movie = movies.data.find((m) => {return elem._movieID === m._id})
-            if(movienames.indexOf(movie.name) === -1){
+            if(movie && movienames.indexOf(movie.name) === -1){
                 movienames.push(movie.name)
             }
             const theater = theaters.data.find((t) => {return elem._theaterID === t._id})
